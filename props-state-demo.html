@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>props-state-demo</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
+    <script src="lib/browser.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel" >
+
+
+    const App = React.createClass({
+        getInitialState:function () {
+            return {
+                items:[]
+            }
+        },
+        add:function (item) {
+            const items = this.state.items;
+            items.push(item);
+
+            this.setState(items);
+            console.log(items);
+        },
+
+        render: function(){
+            return (
+                    <div>
+                        <div>
+                            <Input onAdd={this.add}/>
+                        </div>
+                        <div>
+                            <View items={this.state.items}/>
+                        </div>
+                    </div>
+            )
+        }
+    });
+    const Input = React.createClass({
+
+        add:function () {
+            const item=  $("#text").val();
+            this.props.onAdd(item)
+        },
+        render: function(){
+            return (
+                    <div>
+                        <input type="text" id="text"/>
+                        <button onClick={this.add}>+</button>
+                    </div>
+            )
+        }
+    });
+
+    const View = React.createClass({
+
+        render: function(){
+            const items=this.props.items.map((item,i)=>{
+                return <div key={i}>
+                    <a href="./index.html">{item}</a>
+                </div>
+            });
+            return (
+                    <div>
+                        {items}
+                    </div>
+            )
+        }
+    });
+    ReactDOM.render(<App/>,document.getElementById('content'))
+
+</script>
+
+
+</body>
+</html>
